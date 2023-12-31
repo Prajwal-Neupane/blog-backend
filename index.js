@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(
   cors({
     credentials: true,
-    origin: "https://blogfrontent.onrender.com/",
+    origin: "*",
   })
 );
 dotenv.config();
