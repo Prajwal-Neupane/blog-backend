@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-    },
     content: {
       type: String,
       required: true,
@@ -14,12 +10,16 @@ const blogSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       refer: "users",
     },
+    thumbnail: {
+      type: String,
+    },
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
         refer: "users",
       },
     ],
+    hashtags: [String],
     comments: [
       {
         userId: {

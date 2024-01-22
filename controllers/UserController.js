@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 // REGISTER USER
 
 export const registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, fullName, profilePic } = req.body;
   //   console.log(req.body);
   let existingUser;
   try {
@@ -14,11 +14,17 @@ export const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    if (!username || !email || !password) {
+    if (!username || !email || !password | !fullName) {
       return res.status(400).json({ message: "All fields are required" });
     }
     const hashedPassword = await bcryptjs.hash(password, 12);
-    const user = new userModel({ username, email, password: hashedPassword });
+    const user = new userModel({
+      username,
+      email,
+      password: hashedPassword,
+      fullName,
+      profilePic,
+    });
     const response = await user.save();
     res.status(201).json(response);
   } catch (error) {
@@ -175,6 +181,13 @@ export const unfollowUser = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   const { id } = req.params;
-  const response = await userModel.findById(id).select("username -_id");
+  const response = await userModel.findById(id);
+  res.json(response);
+};
+
+export const getAllUsers = async (req, res) => {
+  const response = await userModel
+    .find()
+    .select("_id, fullName username email profilePic");
   res.json(response);
 };

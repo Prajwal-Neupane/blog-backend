@@ -1,6 +1,7 @@
 import express from "express";
 import {
   followUser,
+  getAllUsers,
   getUser,
   getUserById,
   loginUser,
@@ -21,5 +22,6 @@ router.put("/unfollow/:id", checkIsUserAuthenticated, unfollowUser);
 // router.post("/refresh", refresh);
 router.post("/logout", logout);
 router.get("/getuser/:id", getUserById);
+router.get("/allusers", getAllUsers);
 
 export default router;

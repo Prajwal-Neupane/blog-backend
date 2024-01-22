@@ -10,19 +10,17 @@ export const getAllBlogs = async (req, res) => {
 };
 
 export const createBlog = async (req, res) => {
-  const { title, content } = req.body;
-  if (title && content) {
-    const createBlog = await blogModel.create({
-      title,
-      content,
-      author: req.user._id,
-    });
+  const { content, thumbnail, hashtags } = req.body;
 
-    const response = await createBlog.save();
-    return res.json(response);
-  } else {
-    return res.json({ message: "All fields are required" });
-  }
+  const createBlog = await blogModel.create({
+    content,
+    author: req.user._id,
+    thumbnail,
+    hashtags,
+  });
+
+  const response = await createBlog.save();
+  return res.json(response);
 };
 
 export const getBlogsOfLoggedInUser = async (req, res) => {
