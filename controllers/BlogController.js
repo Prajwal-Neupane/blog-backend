@@ -2,7 +2,7 @@ import blogModel from "../models/Blog.js";
 
 export const getAllBlogs = async (req, res) => {
   try {
-    const blogs = await blogModel.find();
+    const blogs = await blogModel.find().sort({ createdAt: "desc" });
     res.status(200).json(blogs);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -24,7 +24,14 @@ export const createBlog = async (req, res) => {
 };
 
 export const getBlogsOfLoggedInUser = async (req, res) => {
-  const response = await blogModel.find({ author: req.user._id });
+  const response = await blogModel
+    .find({ author: req.user._id })
+    .sort({ createdAt: "desc" });
+  res.json(response);
+};
+export const getSingleBlog = async (req, res) => {
+  const { id } = req.params;
+  const response = await blogModel.findById(id);
   res.json(response);
 };
 
@@ -73,5 +80,24 @@ export const getBlogsOfFollowedUser = async (req, res) => {
     res.json(blogs);
   } catch (error) {
     res.json({ message: "error while fetching the data" });
+  }
+};
+
+export const updateBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content, thumbnail, hashtags } = req.body;
+
+    const response = await blogModel.findOneAndUpdate(
+      { _id: id },
+      {
+        content,
+        thumbnail,
+        hashtags,
+      }
+    );
+    res.json(response);
+  } catch (error) {
+    res.json(error);
   }
 };
