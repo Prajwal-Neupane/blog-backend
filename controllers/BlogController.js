@@ -101,3 +101,15 @@ export const updateBlog = async (req, res) => {
     res.json(error);
   }
 };
+
+export const deleteBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // const { _id } = req.user._id;
+
+    const response = await blogModel.findByIdAndDelete({ _id: id });
+    res.json(response);
+  } catch (error) {
+    res.json(error);
+  }
+};

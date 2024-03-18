@@ -2,6 +2,7 @@ import express from "express";
 import {
   commentPost,
   createBlog,
+  deleteBlog,
   getAllBlogs,
   getBlogsOfLoggedInUser,
   getSingleBlog,
@@ -20,5 +21,6 @@ router.post("/comment/:id", checkIsUserAuthenticated, commentPost);
 router.get("/timeline", checkIsUserAuthenticated, getBlogsOfLoggedInUser);
 router.get("/blog/:id", checkIsUserAuthenticated, getSingleBlog);
 router.put("/blog/:id", checkIsUserAuthenticated, updateBlog);
+router.delete("/blog/:id", checkIsUserAuthenticated, deleteBlog);
 
 export default router;
